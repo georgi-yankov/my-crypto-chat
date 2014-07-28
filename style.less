@@ -1,0 +1,686 @@
+/*
+	Description: Client-side web application "Crypto Chat"
+	Author: Georgi Yankov
+	Author URI: http://gsy-design.com/
+	Author E-mail: webmaster@gsy-design.com
+	Version: 2.0
+*/
+
+/*==================================================================================================
+	MAIN CSS
+==================================================================================================*/
+
+/* RESET CSS */
+@import "init";
+
+// Colors
+@basic-text-color: #444;
+@error: #f00;
+@success-notice: #008000;
+@gray: #ababab;
+@orange: #f90;
+@brown: #7f0000;
+@green: #008000;
+
+// Fonts
+@basic-font-family: Arial, Helvetica, sans-serif;
+@basic-font-size: 13px;
+
+// URLs
+@imgs-url: "../img";
+
+// Variables
+@radius: 5px;
+
+// Parametric Mixins
+
+.word-wrap {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.text-shadow(@x, @v, @blur, @color) {
+    -webkit-text-shadow: @arguments;
+    text-shadow: @arguments;
+}
+
+.box-shadow(@x, @v, @blur, @color, @inset) {
+    -webkit-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+
+/*************************************************
+	ROOT ELEMENTS
+*************************************************/
+
+body {
+    background: #b8b8b8 url("@{imgs-url}/bgr.png") repeat 0 0;
+    color: @basic-text-color;
+    font: @basic-font-size @basic-font-family;
+    line-height: 1;
+}
+
+#wrapper {
+    margin: 0 auto;
+    width: 960px;
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        .box-shadow(0, 0, 6px, @gray, inset);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        .box-shadow(0, 0, 6px, @brown, inset);
+    }
+}
+
+/*************************************************
+	CLEAR FLOATS
+*************************************************/
+
+#header:after,
+#middle:after,
+#chat-box-screen p:after,
+.clearfix:after {
+    clear: both;
+    content: "";
+    display: block;
+    height: 0;
+}
+
+/*************************************************
+	COMMON PARTS
+*************************************************/
+
+/* Chrome Frame prompt */
+.chromeframe {
+    background: #ccc;
+    color: #000;
+    margin: 0.2em 0;
+    padding: 0.2em 0;
+}
+
+/* puts dots on overflow */
+.overflow-safe {
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* external link */
+.external-link {
+    color: #000;
+    text-decoration: none;
+    .text-shadow(1px, 1px, 1px, #fff);
+}
+
+.chat-box-area {
+    background-color: #fff;
+    border: 2px groove @gray;
+    border-radius: @radius;
+    padding: 10px;
+}
+
+.regular-button {
+    background-color: @gray;
+    border: 1px solid darken(@gray, 10%);
+    cursor: pointer;
+    padding: 4px 8px;
+    text-decoration: none;
+    .text-shadow(1px, 1px, 1px, darken(@gray, 30%));
+
+    &:hover {
+        background-color: darken(@gray, 10%);
+    }
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.success-notice {
+    color: @success-notice;
+}
+
+.error-notice {
+    color: @error;
+}
+
+input,
+textarea {
+    border-radius: @radius;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+input {
+    padding: 2px;
+
+    &:focus {
+        background-color: lighten(@orange, 35%);
+    }
+}
+
+textarea {
+    resize: none;
+}
+
+button {
+    background-color: @gray;
+    border: 1px solid darken(@gray, 10%);
+    border-radius: @radius;
+	cursor: pointer;
+    margin: 0;
+    padding: 4px 8px;
+    .text-shadow(1px, 1px, 1px, darken(@gray, 30%));
+
+    &:hover {
+        background-color: darken(@gray, 10%);
+    }
+
+    &:disabled,
+	&:disabled:hover {
+        background-color: @gray;
+    }
+}
+
+h2 {
+    background-image: url("@{imgs-url}/icons.png");
+	background-repeat: no-repeat;
+    font-size: @basic-font-size + 1;
+    font-weight: bold;
+    line-height: 14px;
+	margin-bottom: 15px;
+    padding-left: 18px;
+}
+
+/*==================================================================================================
+	HEADER
+==================================================================================================*/
+
+#header {
+    margin: 40px 0 20px;
+    position: relative;
+}
+
+/*************************************************
+	LOGO
+*************************************************/
+
+#logo {
+    float: left;
+    width: 350px;
+
+    a {
+        color: #fff;
+        font: bold 45px Georgia, serif;
+        line-height: 1;
+        text-decoration: none;
+        .text-shadow(1px, 1px, 1px, darken(@gray, 20%));
+        text-transform: uppercase;
+
+        span {
+            color: @orange;
+            .text-shadow(1px, 1px, 1px, darken(@gray, 30%));
+            text-transform: lowercase;
+        }
+    }
+}
+
+/*************************************************
+	MAIN NAVIGATION
+*************************************************/
+
+#main-nav {
+    float: right;
+    padding: 0 20px 0 0;
+    text-align: right;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 590px;
+
+    p {
+        display: inline-block;
+        font-size: @basic-font-size + 1;
+        padding: 10px 0 0;
+        .text-shadow(1px, 0, 1px, darken(@gray, 30%));
+
+        span {
+            font-weight: bold;
+        }
+    }
+
+    ul {
+        float: right;
+    }
+
+    li {
+        display: inline-block;
+        float: left; // fixes the white space between inline-block elements
+        padding: 0 0 0 20px;
+
+        a {
+            background-color: @orange;
+            border: 1px solid darken(@orange, 5%);
+            border-radius: @radius;
+            color: #fff;
+            display: block;
+            font-size: @basic-font-size + 1;
+            font-weight: bold;
+            padding: 8px 10px;
+            text-decoration: none;
+            .text-shadow(1px, 1px, 1px, darken(@gray, 30%));
+
+            &:hover {
+                background-color: darken(@orange, 5%);
+            }
+        }
+    }
+}
+
+/*==================================================================================================
+	MIDDLE
+==================================================================================================*/
+
+#middle {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid #fff;
+    border-radius: @radius;
+    /*-webkit-box-shadow: #888 1px 1px 2px, inset #ddd 0 0 10px;
+    box-shadow: #888 1px 1px 2px, inset #ddd 0 0 10px;*/
+	.box-shadow(1px, 1px, 2px, #888, inset);
+	.box-shadow(0, 0, 10px, #ddd, inset);
+    padding: 15px 0;
+    height: 500px;
+}
+
+/*==================================================================================================
+	LEFT SIDEBAR
+==================================================================================================*/
+
+#left-sidebar {
+    float: left;
+    padding: 0 10px;
+    width: 180px;
+    height: 100%;
+
+    h2 {
+		background-position: 0 0;
+    }
+
+    h3 {
+        font-weight: bold;
+        padding-bottom: 10px;
+    }
+
+    ul {
+        overflow: auto;
+        height: 170px;
+    }
+
+    li {
+        padding-bottom: 6px;
+        width: 120px;
+
+        a {
+            background-color: lighten(@brown, 5%);
+            border: 1px solid darken(@brown, 5%);
+            border-radius: @radius;
+            display: block;
+            color: #fff;
+            font-size: @basic-font-size;
+            padding: 4px 10px;
+            text-decoration: none;
+            .overflow-safe;
+            .text-shadow(1px, 1px, 1px, darken(@gray, 30%));
+
+            &:hover {
+                background-color: darken(@brown, 5%);
+            }
+        }
+    }
+}
+
+#users-panel {
+    padding-bottom: 20px;
+
+    ul {
+        li {
+            
+        }
+    }
+
+    p {
+        line-height: 17px;
+    }
+}
+
+#who-invites-you {
+	li {
+		position: relative;
+
+		a {
+            background-color: @green;
+            border: 1px solid darken(@green, 5%);
+
+            &:hover {
+                background-color: darken(@green, 5%);
+            }
+		}
+
+		button.deny-button {
+			background-color: @error;
+			border-radius: 12px;
+			color: #fff;
+			line-height: 17px;
+			padding: 2px 7px;
+			position: absolute;
+			right: -30px;
+			top: 0;
+
+			&:hover {
+				background-color: darken(@error, 10%);
+			}
+		}
+	}
+
+    .accept-invitation-box {
+        display: none;
+		padding-top: 4px;
+
+		input {
+			margin-right: 5px;
+			width: 77px;
+		}
+
+		button {
+			line-height: 17px;
+			padding: 2px 7px;
+		}
+    }
+}
+
+/*==================================================================================================
+	CONTENT
+==================================================================================================*/
+
+#content {
+    border-left: 1px dotted lighten(@gray, 10%);
+    border-right: 1px dotted lighten(@gray, 10%);
+    float: left;
+    padding: 0 10px;
+    width: 534px;
+    height: 100%;
+
+    h2.login-form-title {
+		background-position: 0 -14px;
+    }
+
+    h2.reg-form-title {
+		background-position: 0 -28px;
+    }
+
+    .form-error-box {
+        color: @error;
+
+        p {
+            line-height: 17px;
+            padding-bottom: 6px;
+        }
+    }
+}
+
+/*************************************************
+	BEFORE LOGIN
+*************************************************/
+
+#before-login {
+    position: relative;
+    height: 100%;
+
+    p {
+        color: @gray;
+        font-size: 20px;
+        padding: 10px 0 0 20px;
+
+        &:first-child {
+            padding-top: 30px;
+        }
+    }
+
+    img {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+/*************************************************
+	REGISTRATION & LOGIN FORM
+*************************************************/
+
+.reg-and-login-form {
+    padding-top: 20px;
+
+    p {
+        padding: 0 0 10px;
+
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+
+        input:not([type="submit"]) {
+            width: 130px;
+        }
+
+        input[type="submit"] {
+            .regular-button;
+        }
+    }
+}
+
+/*************************************************
+	CHAT BOX
+*************************************************/
+
+#prepare-for-chat {
+    p {
+        padding-bottom: 6px;
+    }
+
+    form {
+        padding-bottom: 10px;
+
+        input {
+            margin-right: 5px;
+            width: 100px;
+        }
+
+        button {
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+    }
+
+    display: none;
+}
+
+#chat-box-screen-wrapper {
+    .chat-box-area;
+    vertical-align: bottom;
+    width: 510px;
+    height: 320px;
+    overflow: auto;
+}
+
+#chat-box-screen {
+    display: table-cell;
+    vertical-align: bottom;
+    width: 510px;
+    height: 320px;
+
+    p {
+        line-height: 17px;
+        padding-bottom: 5px;
+    }
+
+    .chat-box-nick {
+        display: block;
+        float: left;
+        font-weight: bold;
+        text-align: right;
+        text-transform: lowercase;
+        width: 105px;
+		.overflow-safe
+    }
+
+    .chat-box-nick-first {
+        color: @brown;
+    }
+
+    .chat-box-nick-second {
+        color: @green;
+    }
+
+    .message-block {
+        display: block;
+        float: left;
+        padding: 0 10px 0 5px;
+        width: 320px;
+    }
+
+    .message-time {
+        color: lighten(@basic-text-color, 45%);
+        display: block;
+        float: right;
+        font-size: @basic-font-size - 2;
+        width: 50px;
+    }
+}
+
+#chat-box-input {
+    .chat-box-area;
+    display: block;
+    margin: 10px 0;
+    width: 510px;
+    height: 20px;
+
+    &:focus {
+        background-color: lighten(@orange, 35%);
+    }
+
+    &:disabled {
+        background-color: lighten(@gray, 15%);
+    }
+}
+
+#chat-box-button {
+    float: right;
+}
+
+#cancel-chat {
+	background-color: #f00;
+	color: #fff;
+	float: left;
+
+	&:hover {
+		background-color: @brown;
+	}
+
+    &:disabled,
+	&:disabled:hover {
+        background-color: @gray;
+    }
+}
+
+/*==================================================================================================
+	RIGHT SIDEBAR
+==================================================================================================*/
+
+#right-sidebar {
+    float: left;
+    padding: 0 10px;
+    width: 180px;
+    height: 100%;
+
+    h2 {
+		background-position: 0 -42px;
+    }
+
+    h3 {
+        color: @basic-text-color;
+        font-size: @basic-font-size;
+        font-weight: bold;
+        padding-bottom: 10px;
+    }
+
+    ul {
+        overflow: auto;
+        height: 170px;
+    }
+}
+
+#info-panel {
+    p {
+        line-height: 17px;
+    }
+}
+
+#server-messages {
+    font-size: @basic-font-size - 1;
+    line-height: 14px;
+    height: 200px;
+    overflow: auto;
+
+    li {
+        padding-bottom: 10px;
+
+		span {
+			color: @brown;
+			display: block;
+			font-weight: bold;
+		}
+    }
+}
+
+#server-errors {
+    color: @error;
+    font-size: @basic-font-size - 1;
+    line-height: 14px;
+    overflow: auto;
+    height: 200px;
+
+    li {
+        padding-bottom: 10px;
+
+		span {
+			color: @error;
+			display: block;
+			font-weight: bold;
+		}
+    }
+}
+
+/*==================================================================================================
+	FOOTER
+==================================================================================================*/
+
+#footer {
+    margin-top: 10px;
+    padding-bottom: 20px;
+
+    p {
+        padding: 0 0 5px;
+        text-align: center;
+    }
+}

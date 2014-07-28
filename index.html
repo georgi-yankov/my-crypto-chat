@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en-US">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>Crypto Chat</title>
+    <meta name="description" content="Crypto chat application" />
+    <meta name="keywords" content="crypto, chat" />
+    <meta name="author" content="Georgi Yankov" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/ico" href="favicon.png" />
+    <link href="css/style.min.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <link href="css/old-ie.min.css" rel="stylesheet" />
+	<![endif]-->
+</head>
+<body>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="wrapper">
+        <!-- ******************************************************************************* -->
+        <!-- ******     HEADER      ******************************************************** -->
+        <!-- ******************************************************************************* -->
+        <header id="header" role="banner">
+            <!-- LOGO -->
+            <h1 id="logo"><a href="index.html" title="Crypto Chat">Crypto <span>Chat</span></a></h1>
+
+            <!-- MAIN NAVIGATION -->
+            <nav id="main-nav" role="navigation">
+                <ul>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="middle">
+            <!-- ******************************************************************************* -->
+            <!-- ******     LEFT SIDEBAR      ************************************************** -->
+            <!-- ******************************************************************************* -->
+            <aside id="left-sidebar" role="complementary">
+                <h2>Users Panel</h2>
+                <div id="users-panel">
+                </div>
+            </aside>
+
+            <!-- ******************************************************************************* -->
+            <!-- ******     CONTENT      ******************************************************* -->
+            <!-- ******************************************************************************* -->
+            <div id="content" role="main">
+            </div>
+
+            <!-- ******************************************************************************* -->
+            <!-- ******     RIGHT SIDEBAR      ************************************************* -->
+            <!-- ******************************************************************************* -->
+            <aside id="right-sidebar" role="complementary">
+                <h2>Info Panel</h2>
+                <div id="info-panel">
+                </div>
+            </aside>
+        </div>
+
+        <!-- ******************************************************************************* -->
+        <!-- ******     FOOTER      ******************************************************** -->
+        <!-- ******************************************************************************* -->
+        <footer id="footer" role="contentinfo">
+            <p>Copyright &copy; 2013 Crypto Chat. All rights reserved.</p>
+            <p>Made by <a class="external-link" href="http://www.gsy-design.com/" target="_blank" title="GSY Web Design">Georgi Yankov</a></p>
+        </footer>
+    </div>
+
+    <!-- the third digit of the jQuery version is omitted in order to get the latest version -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <!-- fall back to local if Google CDN's down -->
+    <script>window.jQuery || document.write('<script src="js/libs/jquery-1.8.3.min.js"><\/script>')</script>
+
+    <!-- SHA1 Algorithm -->
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/sha1.js"></script>
+
+    <!-- Gibberish AES - library for OpenSSL compatible AES encryption -->
+    <!--<script type="text/javascript" src="https://raw.github.com/mdp/gibberish-aes/master/src/gibberish-aes.js"></script>-->
+    <!--<script src="js/libs/gibberish-aes.min.js"></script>-->
+
+    <!-- Advanced Encryption Standard (AES) -->
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/aes.js"></script>
+
+    <!-- User's JS script -->
+    <!--<script src="js/script.min.js"></script>-->
+    <script src="js/script.js"></script>
+</body>
+</html>
